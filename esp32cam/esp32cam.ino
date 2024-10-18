@@ -42,7 +42,7 @@ WebServer server(80);
 
 // Time interval for automatic capture
 unsigned long lastCaptureTime = 0;
-const unsigned long captureInterval = 5000; // Capture every 5 seconds
+const unsigned long captureInterval = 1000; // Capture every 5 seconds
 
 void setup() {
     Serial.begin(115200);
@@ -122,7 +122,7 @@ void handleAutoCapture() {
 void uploadImage(camera_fb_t *fb, bool isAutoCapture) {
     if (WiFi.status() == WL_CONNECTED) {
         HTTPClient http;
-        String serverPath = "http://192.168.100.110/esp32cam_off/upload_image.php"; // Your server URL
+        String serverPath = "http://192.168.100.165/esp32cam_off/upload_image.php"; // Your server URL
 
         // Prepare the file name
         String imageFileName = "image_" + String(millis()) + ".jpg"; // Unique file name based on timestamp

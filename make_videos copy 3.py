@@ -14,14 +14,14 @@ running = True
 
 def create_video(image_files):
     # กำหนดชื่อไฟล์วิดีโอ
-    video_name = f"video_{datetime.now().strftime('%Y%m%d_%H%M%S')}.mov"  # เปลี่ยนเป็น .mov
+    video_name = f"video_{datetime.now().strftime('%Y%m%d_%H%M%S')}.mp4"
     video_path = os.path.join(videos_dir, video_name)
 
     # กำหนด codec และสร้าง VideoWriter
-    fourcc = cv2.VideoWriter_fourcc(*'avc1')  # ใช้ codec สำหรับ MOV
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
     first_image = cv2.imread(image_files[0])
     height, width, _ = first_image.shape
-    video_writer = cv2.VideoWriter(video_path, fourcc, 12, (width, height))
+    video_writer = cv2.VideoWriter(video_path, fourcc, 24, (width, height))
 
     # เพิ่มภาพลงในวิดีโอ
     for image_file in image_files:
@@ -35,7 +35,7 @@ def save_video_to_db(video_name, video_path, cursor, db):
     now = datetime.now()
     date = now.date()
     time = now.time()
-    cursor.execute(""" 
+    cursor.execute("""
         INSERT INTO videos (name, path_file, date, time) 
         VALUES (%s, %s, %s, %s)
     """, (video_name, video_path, date, time))
@@ -57,7 +57,8 @@ def stop_process():
     running = False
 
 def restart_program():
-    time.sleep(1)  # รอ 5 วินาทีก่อนรันใหม่
+    # print("เริ่มโปรแกรมใหม่...")
+    time.sleep(5)  # รอ 1 วินาทีก่อนรันใหม่
     main()  # เรียก main ใหม่
 
 def main():
@@ -108,4 +109,4 @@ if __name__ == "__main__":
     stop_thread = threading.Thread(target=stop_process)
     stop_thread.start()
     
-    main()
+    main()  
